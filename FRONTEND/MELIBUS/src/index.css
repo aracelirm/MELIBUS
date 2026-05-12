@@ -104,7 +104,7 @@ button {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  overflow: hidden;
+
 }
 
 .home-background::before {
@@ -125,8 +125,9 @@ button {
 .page-layout {
   display: flex;
   flex: 1;
-  min-height: 0;
+  min-height: 100vh;
   position: relative;
+  align-items: flex-start;
 }
 
 .main-content {
@@ -145,19 +146,22 @@ button {
 /* SIDEBAR */
 
 .Sidebar {
+  
+position: -webkit-sticky; /* Soporte Safari */
+  position: sticky;
+  top: 40px;
+  height: fit-content;
+  align-self: flex-start; 
   width: 250px;
-  background-color: var(--light-blue);
-  padding: 18px;
-  border-right: 1px solid var(--border);
   flex-shrink: 0;
-  transition: all 0.3s ease;
-  position: relative;
+  padding-left: 30px;
+  
 }
 
 .Sidebar h3 {
-  margin-top: 0;
+  margin-top: 20px;
   font-size: 14px;
-  color: var(--text-muted);
+  color: var(--secondary-blue);
   margin-bottom: 16px;
 }
 

@@ -29,13 +29,6 @@ function Sidebar() {
 
   return (
     <aside className={`Sidebar ${isCollapsed ? "collapsed" : ""}`}>
-      <button
-        className="Sidebar-collapse-btn"
-        onClick={closeSidebar}
-        title="Cerrar accesos rápidos"
-      >
-        ‹
-      </button>
 
       <h3>ACCESOS RÁPIDOS</h3>
 
