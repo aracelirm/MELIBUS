@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom"
 import Layout from "../components/Layout"
 import lineas from "../data/lineas"
+import paradas from "../data/paradas"
 
 function DetalleLinea() {
   const { id } = useParams()
@@ -23,18 +24,46 @@ function DetalleLinea() {
     )
   }
 
+  const paradasDeLinea = paradas.filter((parada) =>
+    parada.lineas.includes(linea.id)
+  )
+
   return (
     <Layout>
       <div className="simple-page">
         <h2>{linea.nombre}</h2>
 
-        <p>{linea.recorrido}</p>
+        <p>
+          <strong>Recorrido:</strong> {linea.recorrido}
+        </p>
 
-        <h3>Información de la línea</h3>
+        <h3>Paradas de esta línea</h3>
+
+        {paradasDeLinea.length > 0 ? (
+          <div className="info-grid">
+            {paradasDeLinea.map((parada) => (
+              <div key={parada.id} className="info-card">
+                <h3>{parada.nombre}</h3>
+
+                <p>{parada.direccion}</p>
+
+                <Link to={`/parada/${parada.id}`} className="card-button">
+                  Ver parada
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>
+            Todavía no hay paradas asociadas a esta línea.
+          </p>
+        )}
+
+        <h3>Horarios</h3>
 
         <p>
-          Aquí se mostrará el recorrido completo, las paradas asociadas y los horarios
-          de paso de esta línea.
+          Los horarios de esta línea se mostrarán según la parada seleccionada y los
+          datos almacenados en el sistema.
         </p>
 
         <Link to="/lineas" className="card-button">
