@@ -10,6 +10,7 @@ import Paradas from "./pages/Paradas"
 import Horarios from "./pages/Horarios"
 import Recargas from "./pages/Recargas"
 import DetalleLinea from "./pages/DetalleLinea"
+import DetalleParada from "./pages/DetalleParada"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/paradas" element={<Paradas />} />
           <Route path="/horarios" element={<Horarios />} />
           <Route path="/recargas" element={<Recargas />} />
+          <Route path="/parada/:id" element={<DetalleParada />} />
         </Routes>
       </div>
 
