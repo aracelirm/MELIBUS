@@ -2,6 +2,7 @@ import Layout from "../components/Layout"
 import horarios from "../data/horarios"
 import lineas from "../data/lineas"
 import paradas from "../data/paradas"
+import PageHeader from "../components/PageHeader"
 
 function obtenerProximoAutobus(horas) {
   const ahora = new Date()
@@ -21,13 +22,11 @@ function Horarios() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>Horarios</h2>
-
-        <p>
-          Consulta los horarios teóricos de paso del autobús según la línea y la parada
-          seleccionada.
-        </p>
-
+        <PageHeader
+          tag="Horarios"
+          titulo="Horarios"
+          descripcion="Consulta los horarios teóricos de paso del autobús según la línea y la parada seleccionada."
+        />
         <div className="info-grid">
           {horarios.map((horario) => {
             const linea = lineas.find((item) => item.id === horario.idLinea)

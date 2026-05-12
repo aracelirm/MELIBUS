@@ -1,5 +1,7 @@
 import Layout from "../components/Layout"
 import avisos from "../data/avisos"
+import AvisoCard from "../components/AvisoCard"
+import PageHeader from "../components/PageHeader"
 
 function Avisos() {
   const avisosActivos = avisos.filter((aviso) => aviso.activo)
@@ -7,24 +9,23 @@ function Avisos() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>Avisos e incidencias</h2>
+        <PageHeader
+          tag="Avisos"
+          titulo="Avisos e incidencias"
+          descripcion="Consulta posibles cambios, avisos o incidencias relacionados con el servicio de autobús urbano."
+        />
 
-        <p>
-          Consulta posibles cambios, avisos o incidencias relacionados con el servicio
-          de autobús urbano.
-        </p>
-
-        <div className="info-grid">
-          {avisosActivos.map((aviso) => (
-            <div key={aviso.id} className="info-card aviso-card">
-              <h3>{aviso.titulo}</h3>
-              <p>{aviso.descripcion}</p>
-              <p>
-                <strong>Fecha:</strong> {aviso.fecha}
-              </p>
-            </div>
-          ))}
-        </div>
+        {avisosActivos.length > 0 ? (
+          <div className="info-grid">
+            {avisosActivos.map((aviso) => (
+              <AvisoCard key={aviso.id} aviso={aviso} />
+            ))}
+          </div>
+        ) : (
+          <p className="empty-message">
+            No hay avisos ni incidencias activas actualmente.
+          </p>
+        )}
       </div>
     </Layout>
   )

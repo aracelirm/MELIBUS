@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom"
 import Layout from "../components/Layout"
 import lineas from "../data/lineas"
 import paradas from "../data/paradas"
+import PageHeader from "../components/PageHeader"
 
 function DetalleLinea() {
   const { id } = useParams()
@@ -31,11 +32,11 @@ function DetalleLinea() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>{linea.nombre}</h2>
-
-        <p>
-          <strong>Recorrido:</strong> {linea.recorrido}
-        </p>
+        <PageHeader
+          tag="Detalle de línea"
+          titulo={linea.nombre}
+          descripcion={`Recorrido: ${linea.recorrido}`}
+        />
 
         <h3>Paradas de esta línea</h3>
 

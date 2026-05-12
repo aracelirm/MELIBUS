@@ -1,7 +1,9 @@
 import { useState } from "react"
 import Layout from "../components/Layout"
-import { Link } from "react-router-dom"
+import SearchBar from "../components/SearchBar"
+import LineaCard from "../components/LineaCard"
 import lineas from "../data/lineas"
+import PageHeader from "../components/PageHeader"
 
 function Lineas() {
   const [busqueda, setBusqueda] = useState("")
@@ -18,36 +20,24 @@ function Lineas() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>Líneas de autobús</h2>
+        <PageHeader
+          tag="Líneas"
+          titulo="Líneas de autobús"
+          descripcion="Consulta las líneas disponibles del autobús urbano y accede al detalle de su recorrido."
+        />
 
-        <p>
-          Consulta las líneas disponibles del autobús urbano y accede al detalle de su
-          recorrido.
-        </p>
-
-        <div className="search-box">
-          <label htmlFor="buscar-linea">Buscar linea</label>
-
-          <input
-            id="buscar-linea"
-            type="text"
-            placeholder="Ejemplo: Línea 1, Frontera, Centro..."
-            value={busqueda}
-            onChange={(event) => setBusqueda(event.target.value)}
-          />
-        </div>
+        <SearchBar
+          id="buscar-linea"
+          label="Buscar línea"
+          placeholder="Ejemplo: Línea 1, Frontera, Centro..."
+          value={busqueda}
+          onChange={setBusqueda}
+        />
 
         {lineasFiltradas.length > 0 ? (
           <div className="lineas-grid">
             {lineasFiltradas.map((linea) => (
-              <div key={linea.id} className="linea-card">
-                <h3>{linea.nombre}</h3>
-                <p>{linea.recorrido}</p>
-
-                <Link to={`/linea/${linea.id}`} className="card-button">
-                  Ver detalle
-                </Link>
-              </div>
+              <LineaCard key={linea.id} linea={linea} />
             ))}
           </div>
         ) : (

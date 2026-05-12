@@ -3,6 +3,7 @@ import Layout from "../components/Layout"
 import paradas from "../data/paradas"
 import lineas from "../data/lineas"
 import horarios from "../data/horarios"
+import PageHeader from "../components/PageHeader"
 
 function obtenerProximoAutobus(horas) {
   const ahora = new Date()
@@ -50,12 +51,11 @@ function DetalleParada() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>{parada.nombre}</h2>
-
-        <p>
-          <strong>Dirección:</strong> {parada.direccion}
-        </p>
-
+        <PageHeader
+          tag="Detalle de parada"
+          titulo={parada.nombre}
+          descripcion={`Dirección: ${parada.direccion}`}
+        />
         <h3>Líneas que pasan por esta parada</h3>
 
         {lineasDeParada.length > 0 ? (

@@ -2,6 +2,7 @@ import Layout from "../components/Layout"
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import paradas from "../data/paradas"
+import PageHeader from "../components/PageHeader"
 
 function Mapa() {
   const centroMelilla = [35.2923, -2.9381]
@@ -13,12 +14,11 @@ function Mapa() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>Mapa de paradas</h2>
-
-        <p>
-          Visualiza las paradas del autobús urbano sobre el mapa de Melilla. Las
-          coordenadas reales se completarán durante la integración final de datos.
-        </p>
+        <PageHeader
+          tag="Mapa"
+          titulo="Mapa de paradas"
+          descripcion="En el mapa de Melilla podrás encontrar todas las paradas."
+        />
 
         <div className="map-container">
           <MapContainer

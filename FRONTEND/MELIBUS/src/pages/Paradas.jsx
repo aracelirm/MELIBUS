@@ -1,7 +1,10 @@
 import { useState } from "react"
 import Layout from "../components/Layout"
 import { Link } from "react-router-dom"
+import SearchBar from "../components/SearchBar"
 import paradas from "../data/paradas"
+import ParadaCard from "../components/ParadaCard"
+import PageHeader from "../components/PageHeader"
 
 function Paradas() {
   const [busqueda, setBusqueda] = useState("")
@@ -18,44 +21,24 @@ function Paradas() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>Paradas</h2>
+        <PageHeader
+          tag="Paradas"
+          titulo="Paradas"
+          descripcion="Consulta las principales paradas del autobús urbano de Melilla y las líneas que pasan por cada una de ellas."
+        />
 
-        <p>
-          Consulta las principales paradas del autobús urbano de Melilla y las líneas
-          que pasan por cada una de ellas.
-        </p>
-
-        <div className="search-box">
-          <label htmlFor="buscar-parada">Buscar parada</label>
-
-          <input
-            id="buscar-parada"
-            type="text"
-            placeholder="Ejemplo: Plaza España, Barrio Real..."
-            value={busqueda}
-            onChange={(event) => setBusqueda(event.target.value)}
-          />
-        </div>
+        <SearchBar
+          id="buscar-parada"
+          label="Buscar parada"
+          placeholder="Ejemplo: Plaza España, Barrio Real..."
+          value={busqueda}
+          onChange={setBusqueda}
+        />
 
         {paradasFiltradas.length > 0 ? (
           <div className="info-grid">
             {paradasFiltradas.map((parada) => (
-              <div key={parada.id} className="info-card">
-                <h3>{parada.nombre}</h3>
-
-                <p>
-                  <strong>Dirección:</strong> {parada.direccion}
-                </p>
-
-                <p>
-                  <strong>Líneas:</strong>{" "}
-                  {parada.lineas.map((linea) => `Línea ${linea}`).join(", ")}
-                </p>
-
-                <Link to={`/parada/${parada.id}`} className="card-button">
-                  Ver detalle
-                </Link>
-              </div>
+              <ParadaCard key={parada.id} parada={parada} />
             ))}
           </div>
         ) : (
