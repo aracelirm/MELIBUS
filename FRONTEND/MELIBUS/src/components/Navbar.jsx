@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 function Navbar() {
   return (
@@ -9,20 +9,41 @@ function Navbar() {
       </div>
 
       <nav className="topbar-nav">
-        <NavLink to="/" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
           Inicio
         </NavLink>
 
-        <NavLink to="/lineas" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+        <NavLink
+          to="/lineas"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
           Líneas
         </NavLink>
 
-        <NavLink to="/mapa" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+        <NavLink
+          to="/mapa"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
           Mapa
         </NavLink>
 
-        <Link to="#" className="nav-link">Avisos</Link>
-        <Link to="#" className="nav-link">Perfil</Link>
+        <NavLink
+          to="/avisos"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
+          Avisos
+        </NavLink>
       </nav>
     </header>
   )

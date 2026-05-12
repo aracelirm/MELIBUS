@@ -1,14 +1,14 @@
 import Layout from "../components/Layout"
 
-function Mapa() {
+function Avisos() {
   return (
     <Layout>
       <div className="simple-page">
-        <h2>Mapa de paradas</h2>
-        <p>Aquí irá el mapa interactivo con Leaflet.</p>
+        <h2>Avisos e incidencias</h2>
+        <p>No hay incidencias activas actualmente.</p>
       </div>
     </Layout>
   )
 }
 
-export default Mapa
+export default Avisos

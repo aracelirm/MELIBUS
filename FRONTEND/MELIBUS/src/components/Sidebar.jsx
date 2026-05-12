@@ -1,70 +1,49 @@
 import { useState, useEffect } from "react"
+import { NavLink } from "react-router-dom"
 
 function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(() => {
     const saved = localStorage.getItem("SidebarCollapsed")
-    return saved ? JSON.parse(saved) : false
+    return saved ? JSON.parse(saved) : true
   })
 
   useEffect(() => {
     localStorage.setItem("SidebarCollapsed", JSON.stringify(isCollapsed))
   }, [isCollapsed])
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const closeSidebar = () => {
-    setIsOpen(false)
-  }
-
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed)
-    setIsOpen(false)
   }
 
   return (
     <>
-      {!isCollapsed && (
-        <button className="Sidebar-toggle-btn" onClick={toggleSidebar}>
+      {isCollapsed && (
+        <button
+          className="sidebar-floating-btn"
+          onClick={toggleCollapse}
+          title="Abrir accesos rápidos"
+        >
           ☰
         </button>
       )}
 
-      {isOpen && (
-        <div 
-          className="Sidebar-overlay"
-          onClick={closeSidebar}
-          style={{
-            position: "fixed",
-            top: 72,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
-            zIndex: 997,
-          }}
-        ></div>
-      )}
-
-      <aside className={`Sidebar ${isOpen ? "open" : ""} ${isCollapsed ? "collapsed" : ""}`}>
-        <button 
+      <aside className={`Sidebar ${isCollapsed ? "collapsed" : ""}`}>
+        <button
           className="Sidebar-collapse-btn"
           onClick={toggleCollapse}
-          title={isCollapsed ? "Expandir" : "Colapsar"}
+          title="Cerrar accesos rápidos"
         >
-          {isCollapsed ? "›" : "‹"}
+          ‹
         </button>
 
         <h3>ACCESOS RÁPIDOS</h3>
 
-        <button onClick={closeSidebar}>Líneas de autobús</button>
-        <button onClick={closeSidebar}>Paradas</button>
-        <button onClick={closeSidebar}>Mapa de paradas</button>
-        <button onClick={closeSidebar}>Horarios</button>
-        <button onClick={closeSidebar}>Avisos / Incidencias</button>
-        <button onClick={closeSidebar}>Puntos de recarga</button>
+        <NavLink to="/lineas">Líneas de autobús</NavLink>
+        <NavLink to="/paradas">Paradas</NavLink>
+        <NavLink to="/mapa">Mapa de paradas</NavLink>
+        <NavLink to="/horarios">Horarios</NavLink>
+        <NavLink to="/avisos">Avisos / Incidencias</NavLink>
+        <NavLink to="/recargas">Puntos de recarga</NavLink>
       </aside>
     </>
   )
