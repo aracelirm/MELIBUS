@@ -11,41 +11,41 @@ function Sidebar() {
     localStorage.setItem("SidebarCollapsed", JSON.stringify(isCollapsed))
   }, [isCollapsed])
 
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed)
+  useEffect(() => {
+    const toggleSidebar = () => {
+      setIsCollapsed((prev) => !prev)
+    }
+
+    window.addEventListener("toggle-sidebar", toggleSidebar)
+
+    return () => {
+      window.removeEventListener("toggle-sidebar", toggleSidebar)
+    }
+  }, [])
+
+  const closeSidebar = () => {
+    setIsCollapsed(true)
   }
 
   return (
-    <>
-      {isCollapsed && (
-        <button
-          className="sidebar-floating-btn"
-          onClick={toggleCollapse}
-          title="Abrir accesos rápidos"
-        >
-          ☰
-        </button>
-      )}
+    <aside className={`Sidebar ${isCollapsed ? "collapsed" : ""}`}>
+      <button
+        className="Sidebar-collapse-btn"
+        onClick={closeSidebar}
+        title="Cerrar accesos rápidos"
+      >
+        ‹
+      </button>
 
-      <aside className={`Sidebar ${isCollapsed ? "collapsed" : ""}`}>
-        <button
-          className="Sidebar-collapse-btn"
-          onClick={toggleCollapse}
-          title="Cerrar accesos rápidos"
-        >
-          ‹
-        </button>
+      <h3>ACCESOS RÁPIDOS</h3>
 
-        <h3>ACCESOS RÁPIDOS</h3>
-
-        <NavLink to="/lineas">Líneas de autobús</NavLink>
-        <NavLink to="/paradas">Paradas</NavLink>
-        <NavLink to="/mapa">Mapa de paradas</NavLink>
-        <NavLink to="/horarios">Horarios</NavLink>
-        <NavLink to="/avisos">Avisos / Incidencias</NavLink>
-        <NavLink to="/recargas">Puntos de recarga</NavLink>
-      </aside>
-    </>
+      <NavLink to="/lineas" onClick={closeSidebar}>Líneas de autobús</NavLink>
+      <NavLink to="/paradas" onClick={closeSidebar}>Paradas</NavLink>
+      <NavLink to="/mapa" onClick={closeSidebar}>Mapa de paradas</NavLink>
+      <NavLink to="/horarios" onClick={closeSidebar}>Horarios</NavLink>
+      <NavLink to="/avisos" onClick={closeSidebar}>Avisos / Incidencias</NavLink>
+      <NavLink to="/recargas" onClick={closeSidebar}>Puntos de recarga</NavLink>
+    </aside>
   )
 }
 
