@@ -11,6 +11,7 @@ import Horarios from "./pages/Horarios"
 import Recargas from "./pages/Recargas"
 import DetalleLinea from "./pages/DetalleLinea"
 import DetalleParada from "./pages/DetalleParada"
+import Perfil from "./pages/Perfil"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/horarios" element={<Horarios />} />
           <Route path="/recargas" element={<Recargas />} />
           <Route path="/parada/:id" element={<DetalleParada />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
       </div>
 
