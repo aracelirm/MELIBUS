@@ -1,12 +1,22 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import SearchBar from "../components/SearchBar"
 import LineaCard from "../components/LineaCard"
-import lineas from "../data/lineas"
 import PageHeader from "../components/PageHeader"
+import { getLineas } from "../services/melibusApi"
 
 function Lineas() {
+  const [lineas, setLineas] = useState([])
   const [busqueda, setBusqueda] = useState("")
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    getLineas()
+      .then(setLineas)
+      .catch((error) => setError(error.message))
+      .finally(() => setCargando(false))
+  }, [])
 
   const lineasFiltradas = lineas.filter((linea) => {
     const textoBusqueda = busqueda.toLowerCase()
@@ -34,7 +44,11 @@ function Lineas() {
           onChange={setBusqueda}
         />
 
-        {lineasFiltradas.length > 0 ? (
+        {cargando ? (
+          <p className="empty-message">Cargando líneas...</p>
+        ) : error ? (
+          <p className="empty-message">{error}</p>
+        ) : lineasFiltradas.length > 0 ? (
           <div className="lineas-grid">
             {lineasFiltradas.map((linea) => (
               <LineaCard key={linea.id} linea={linea} />

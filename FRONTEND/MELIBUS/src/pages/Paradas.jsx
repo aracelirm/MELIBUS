@@ -1,13 +1,22 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
-import { Link } from "react-router-dom"
 import SearchBar from "../components/SearchBar"
-import paradas from "../data/paradas"
 import ParadaCard from "../components/ParadaCard"
 import PageHeader from "../components/PageHeader"
+import { getParadas } from "../services/melibusApi"
 
 function Paradas() {
+  const [paradas, setParadas] = useState([])
   const [busqueda, setBusqueda] = useState("")
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    getParadas()
+      .then(setParadas)
+      .catch((error) => setError(error.message))
+      .finally(() => setCargando(false))
+  }, [])
 
   const paradasFiltradas = paradas.filter((parada) => {
     const textoBusqueda = busqueda.toLowerCase()
@@ -35,7 +44,11 @@ function Paradas() {
           onChange={setBusqueda}
         />
 
-        {paradasFiltradas.length > 0 ? (
+        {cargando ? (
+          <p className="empty-message">Cargando paradas...</p>
+        ) : error ? (
+          <p className="empty-message">{error}</p>
+        ) : paradasFiltradas.length > 0 ? (
           <div className="info-grid">
             {paradasFiltradas.map((parada) => (
               <ParadaCard key={parada.id} parada={parada} />

@@ -1,21 +1,41 @@
+import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import Layout from "../components/Layout"
-import lineas from "../data/lineas"
-import paradas from "../data/paradas"
 import PageHeader from "../components/PageHeader"
+import { getLinea, getParadasLinea } from "../services/melibusApi"
 
 function DetalleLinea() {
   const { id } = useParams()
+  const [linea, setLinea] = useState(null)
+  const [paradasDeLinea, setParadasDeLinea] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState("")
 
-  const linea = lineas.find(
-    (item) => item.id === Number(id)
-  )
+  useEffect(() => {
+    Promise.all([getLinea(id), getParadasLinea(id)])
+      .then(([lineaData, paradasData]) => {
+        setLinea(lineaData)
+        setParadasDeLinea(paradasData)
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setCargando(false))
+  }, [id])
 
-  if (!linea) {
+  if (cargando) {
     return (
       <Layout>
         <div className="simple-page">
-          <h2>Línea no encontrada</h2>
+          <p className="empty-message">Cargando línea...</p>
+        </div>
+      </Layout>
+    )
+  }
+
+  if (error || !linea) {
+    return (
+      <Layout>
+        <div className="simple-page">
+          <h2>{error || "Línea no encontrada"}</h2>
 
           <Link to="/lineas" className="card-button">
             Volver a líneas
@@ -24,10 +44,6 @@ function DetalleLinea() {
       </Layout>
     )
   }
-
-  const paradasDeLinea = paradas.filter((parada) =>
-    parada.lineas.includes(linea.id)
-  )
 
   return (
     <Layout>

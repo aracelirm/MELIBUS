@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { loginUsuario, registrarUsuario } from "../services/melibusApi"
 
 function AuthModal({ onClose }) {
   const navigate = useNavigate()
 
   const [modo, setModo] = useState("login")
   const [error, setError] = useState("")
+  const [cargando, setCargando] = useState(false)
 
   const [formulario, setFormulario] = useState({
     nombre: "",
@@ -23,7 +25,7 @@ function AuthModal({ onClose }) {
     })
   }
 
-  const manejarLogin = (event) => {
+  const manejarLogin = async (event) => {
     event.preventDefault()
 
     if (!formulario.email || !formulario.password) {
@@ -31,20 +33,28 @@ function AuthModal({ onClose }) {
       return
     }
 
-    const usuario = {
-      nombre: "Usuario MELIBUS",
-      email: formulario.email,
-      rol: "usuario",
+    setCargando(true)
+    setError("")
+
+    try {
+      const respuesta = await loginUsuario({
+        email: formulario.email,
+        password: formulario.password,
+      })
+
+      localStorage.setItem("melibusUser", JSON.stringify(respuesta.user))
+      window.dispatchEvent(new Event("auth-change"))
+
+      onClose()
+      navigate("/perfil")
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setCargando(false)
     }
-
-    localStorage.setItem("melibusUser", JSON.stringify(usuario))
-    window.dispatchEvent(new Event("auth-change"))
-
-    onClose()
-    navigate("/perfil")
   }
 
-  const manejarRegistro = (event) => {
+  const manejarRegistro = async (event) => {
     event.preventDefault()
 
     if (
@@ -62,17 +72,26 @@ function AuthModal({ onClose }) {
       return
     }
 
-    const usuario = {
-      nombre: formulario.nombre,
-      email: formulario.email,
-      rol: "usuario",
+    setCargando(true)
+    setError("")
+
+    try {
+      const respuesta = await registrarUsuario({
+        nombre: formulario.nombre,
+        email: formulario.email,
+        password: formulario.password,
+      })
+
+      localStorage.setItem("melibusUser", JSON.stringify(respuesta.user))
+      window.dispatchEvent(new Event("auth-change"))
+
+      onClose()
+      navigate("/perfil")
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setCargando(false)
     }
-
-    localStorage.setItem("melibusUser", JSON.stringify(usuario))
-    window.dispatchEvent(new Event("auth-change"))
-
-    onClose()
-    navigate("/perfil")
   }
 
   const cambiarModo = (nuevoModo) => {
@@ -136,8 +155,8 @@ function AuthModal({ onClose }) {
               />
             </div>
 
-            <button type="submit" className="auth-button">
-              Entrar
+            <button type="submit" className="auth-button" disabled={cargando}>
+              {cargando ? "Entrando..." : "Entrar"}
             </button>
 
             <div className="auth-secondary-action">
@@ -198,8 +217,8 @@ function AuthModal({ onClose }) {
               />
             </div>
 
-            <button type="submit" className="auth-button">
-              Registrarme
+            <button type="submit" className="auth-button" disabled={cargando}>
+              {cargando ? "Registrando..." : "Registrarme"}
             </button>
 
             <div className="auth-secondary-action">

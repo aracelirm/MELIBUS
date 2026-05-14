@@ -1,9 +1,8 @@
+import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import Layout from "../components/Layout"
-import paradas from "../data/paradas"
-import lineas from "../data/lineas"
-import horarios from "../data/horarios"
 import PageHeader from "../components/PageHeader"
+import { getHorariosParada, getLineas, getParada } from "../services/melibusApi"
 
 function obtenerProximoAutobus(horas) {
   const ahora = new Date()
@@ -21,16 +20,38 @@ function obtenerProximoAutobus(horas) {
 
 function DetalleParada() {
   const { id } = useParams()
+  const [parada, setParada] = useState(null)
+  const [lineas, setLineas] = useState([])
+  const [horariosDeParada, setHorariosDeParada] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState("")
 
-  const parada = paradas.find(
-    (item) => item.id === Number(id)
-  )
+  useEffect(() => {
+    Promise.all([getParada(id), getLineas(), getHorariosParada(id)])
+      .then(([paradaData, lineasData, horariosData]) => {
+        setParada(paradaData)
+        setLineas(lineasData)
+        setHorariosDeParada(horariosData)
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setCargando(false))
+  }, [id])
 
-  if (!parada) {
+  if (cargando) {
     return (
       <Layout>
         <div className="simple-page">
-          <h2>Parada no encontrada</h2>
+          <p className="empty-message">Cargando parada...</p>
+        </div>
+      </Layout>
+    )
+  }
+
+  if (error || !parada) {
+    return (
+      <Layout>
+        <div className="simple-page">
+          <h2>{error || "Parada no encontrada"}</h2>
 
           <Link to="/paradas" className="card-button">
             Volver a paradas
@@ -42,10 +63,6 @@ function DetalleParada() {
 
   const lineasDeParada = lineas.filter((linea) =>
     parada.lineas.includes(linea.id)
-  )
-
-  const horariosDeParada = horarios.filter((horario) =>
-    horario.idParada === parada.id
   )
 
   return (

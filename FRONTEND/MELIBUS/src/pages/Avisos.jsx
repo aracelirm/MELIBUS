@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
-import avisos from "../data/avisos"
 import AvisoCard from "../components/AvisoCard"
 import PageHeader from "../components/PageHeader"
+import { getAvisos } from "../services/melibusApi"
 
 function Avisos() {
+  const [avisos, setAvisos] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    getAvisos()
+      .then(setAvisos)
+      .catch((error) => setError(error.message))
+      .finally(() => setCargando(false))
+  }, [])
+
   const avisosActivos = avisos.filter((aviso) => aviso.activo)
 
   return (
@@ -15,7 +27,11 @@ function Avisos() {
           descripcion="Consulta posibles cambios, avisos o incidencias relacionados con el servicio de autobús urbano."
         />
 
-        {avisosActivos.length > 0 ? (
+        {cargando ? (
+          <p className="empty-message">Cargando avisos...</p>
+        ) : error ? (
+          <p className="empty-message">{error}</p>
+        ) : avisosActivos.length > 0 ? (
           <div className="info-grid">
             {avisosActivos.map((aviso) => (
               <AvisoCard key={aviso.id} aviso={aviso} />
