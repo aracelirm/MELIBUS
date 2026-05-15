@@ -249,8 +249,8 @@ position: -webkit-sticky; /* Soporte Safari */
   background:
     linear-gradient(
       135deg,
-      rgba(16, 49, 99, 0.104),
-      rgba(20, 91, 173, 0.42)
+      rgba(16, 49, 99, 0.72),
+      rgba(20, 91, 173, 0.82)
     );
 
   color: var(--white);
@@ -347,13 +347,13 @@ position: -webkit-sticky; /* Soporte Safari */
 
   box-shadow: var(--glass-shadow);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
 }
 
 .features-section h2 {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.82);
 
   margin-top: 0;
   margin-bottom: 16px;
@@ -370,7 +370,7 @@ position: -webkit-sticky; /* Soporte Safari */
 /* TARJETAS DE FEATURES, DEBAJO DEL HERO */
 
 .feature-card {
-  background: linear-gradient( 180deg,  rgba(255, 255, 255, 0.24),  rgba(255, 255, 255, 0.14));
+  background: linear-gradient( 180deg,  rgba(13, 71, 161, 0.55), rgba(13, 71, 161, 0.28));
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 22px;
   padding: 20px;
@@ -397,7 +397,8 @@ position: -webkit-sticky; /* Soporte Safari */
 
   color: var(--white);
 
-  font-size: 26px;
+  font-size: 30px;
+
   margin-bottom: 12px;
 }
 
@@ -407,7 +408,7 @@ position: -webkit-sticky; /* Soporte Safari */
   color: rgba(255, 255, 255, 0.84);
 
   line-height: 1.5;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 /* BOTÓN DE "VER ..." EN LAS TARJETAS DE FEATURES */
@@ -894,7 +895,7 @@ position: -webkit-sticky; /* Soporte Safari */
 .glass-auth-card {
   width: 100%;
   max-width: 560px;
-  background: linear-gradient(180deg, rgba(13, 71, 161, 0.30),  rgba(8, 39, 92, 0.52));
+  background: linear-gradient(180deg, rgba(13, 71, 161, 0.82), rgba(8, 39, 92, 0.90));
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 28px;
   padding: 30px;
@@ -1274,6 +1275,15 @@ position: -webkit-sticky; /* Soporte Safari */
 
   .map-container {
     height: 300px;
+  }
+
+  /* RESPONSIVE EXTRA PARA EL FORMULARIO ADMIN EN EL MOVIL, ASI NO SE DESCUADRA TODO*/
+  .admin-form textarea {
+  grid-column: 1 / -1;
+  }
+
+  .admin-row {
+    grid-template-columns: 1fr;
   }
 
 /* ESTILOS LOGIN/REGISTRO */

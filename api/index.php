@@ -23,17 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     $db = Database::getConnection();
     $method = $_SERVER['REQUEST_METHOD'];
-    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
-    $segments = array_values(array_filter(explode('/', trim($path, '/'))));
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+$segments = array_values(array_filter(explode('/', trim($path, '/'))));
 
-    // Permite usar tanto /api/lineas como /lineas al levantar el servidor PHP.
-    if (($segments[0] ?? '') === 'api') {
-        array_shift($segments);
-    }
+// Permite usar la API tanto en:
+// /api/lineas
+// /melibus/api/lineas
+// /lineas
+$apiPosition = array_search('api', $segments, true);
 
-    if (($segments[0] ?? '') === 'index.php') {
-        array_shift($segments);
-    }
+if ($apiPosition !== false) {
+    $segments = array_slice($segments, $apiPosition + 1);
+}
+
+if (($segments[0] ?? '') === 'index.php') {
+    array_shift($segments);
+}
 
     $resource = $segments[0] ?? '';
     $id = isset($segments[1]) && ctype_digit($segments[1]) ? (int) $segments[1] : null;
