@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import ParadaCard from "../components/ParadaCard";
+import {
+  eliminarParadaFavorita,
+  getParadasFavoritas,
+} from "../services/melibusApi";
 
 function Perfil() {
   const navigate = useNavigate();
@@ -15,6 +20,11 @@ function Perfil() {
       return null;
     }
   });
+  const [favoritas, setFavoritas] = useState([]);
+  const [cargandoFavoritas, setCargandoFavoritas] = useState(
+    usuario?.rol === "usuario"
+  );
+  const [errorFavoritas, setErrorFavoritas] = useState("");
 
   // Sincronizo si hay cambios en otras pestañas
   useEffect(() => {
@@ -27,11 +37,51 @@ function Perfil() {
     return () => window.removeEventListener("auth-change", sincronizarUsuario);
   }, []);
 
+  useEffect(() => {
+    if (!usuario?.id || usuario.rol !== "usuario") {
+      return;
+    }
+
+    let activo = true;
+
+    getParadasFavoritas(usuario.id)
+      .then((paradas) => {
+        if (activo) {
+          setFavoritas(paradas);
+        }
+      })
+      .catch((error) => {
+        if (activo) {
+          setErrorFavoritas(error.message);
+        }
+      })
+      .finally(() => {
+        if (activo) {
+          setCargandoFavoritas(false);
+        }
+      });
+
+    return () => {
+      activo = false;
+    };
+  }, [usuario]);
+
   const cerrarSesion = () => {
     localStorage.removeItem("melibusUser");
     // Notifico al Navbar para que también se actualice
     window.dispatchEvent(new Event("auth-change"));
     navigate("/");
+  };
+
+  const quitarFavorita = async (parada) => {
+    try {
+      await eliminarParadaFavorita(usuario.id, parada.id);
+      setFavoritas((actuales) =>
+        actuales.filter((favorita) => favorita.id !== parada.id)
+      );
+    } catch (error) {
+      setErrorFavoritas(error.message);
+    }
   };
 
   // Verificación de seguridad
@@ -72,6 +122,33 @@ function Perfil() {
             <p><strong>Rol:</strong> {usuario?.rol || "Usuario"}</p>
           </div>
         </div>
+
+        {usuario.rol === "usuario" && (
+          <section className="profile-section">
+            <h3>Paradas favoritas</h3>
+
+            {cargandoFavoritas ? (
+              <p className="empty-message">Cargando paradas favoritas...</p>
+            ) : errorFavoritas ? (
+              <p className="empty-message">{errorFavoritas}</p>
+            ) : favoritas.length > 0 ? (
+              <div className="info-grid">
+                {favoritas.map((parada) => (
+                  <ParadaCard
+                    key={parada.id}
+                    parada={parada}
+                    favorita={true}
+                    onToggleFavorita={quitarFavorita}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="empty-message">
+                Todavía no has añadido ninguna parada a favoritos.
+              </p>
+            )}
+          </section>
+        )}
       </div>
     </Layout>
   );

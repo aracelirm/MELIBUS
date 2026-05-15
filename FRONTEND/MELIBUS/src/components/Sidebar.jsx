@@ -2,6 +2,10 @@ import { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 
 function Sidebar() {
+  const [usuario, setUsuario] = useState(() => {
+    const guardado = localStorage.getItem("melibusUser")
+    return guardado ? JSON.parse(guardado) : null
+  })
   const [isCollapsed, setIsCollapsed] = useState(() => {
     const saved = localStorage.getItem("SidebarCollapsed")
     return saved ? JSON.parse(saved) : true
@@ -16,10 +20,17 @@ function Sidebar() {
       setIsCollapsed((prev) => !prev)
     }
 
+    const cargarUsuario = () => {
+      const guardado = localStorage.getItem("melibusUser")
+      setUsuario(guardado ? JSON.parse(guardado) : null)
+    }
+
     window.addEventListener("toggle-sidebar", toggleSidebar)
+    window.addEventListener("auth-change", cargarUsuario)
 
     return () => {
       window.removeEventListener("toggle-sidebar", toggleSidebar)
+      window.removeEventListener("auth-change", cargarUsuario)
     }
   }, [])
 
@@ -38,6 +49,9 @@ function Sidebar() {
       <NavLink to="/horarios" onClick={closeSidebar}>Horarios</NavLink>
       <NavLink to="/avisos" onClick={closeSidebar}>Avisos / Incidencias</NavLink>
       <NavLink to="/recargas" onClick={closeSidebar}>Puntos de recarga</NavLink>
+      {usuario?.rol === "admin" && (
+        <NavLink to="/admin" onClick={closeSidebar}>Panel administrador</NavLink>
+      )}
     </aside>
   )
 }

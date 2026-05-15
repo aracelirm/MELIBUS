@@ -12,6 +12,7 @@ import Recargas from "./pages/Recargas"
 import DetalleLinea from "./pages/DetalleLinea"
 import DetalleParada from "./pages/DetalleParada"
 import Perfil from "./pages/Perfil"
+import AdminPanel from "./pages/AdminPanel"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/recargas" element={<Recargas />} />
           <Route path="/parada/:id" element={<DetalleParada />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
 

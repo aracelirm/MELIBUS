@@ -3,20 +3,73 @@ import Layout from "../components/Layout"
 import SearchBar from "../components/SearchBar"
 import ParadaCard from "../components/ParadaCard"
 import PageHeader from "../components/PageHeader"
-import { getParadas } from "../services/melibusApi"
+import {
+  agregarParadaFavorita,
+  eliminarParadaFavorita,
+  getParadas,
+  getParadasFavoritas,
+} from "../services/melibusApi"
 
 function Paradas() {
+  const [usuario] = useState(() => {
+    const guardado = localStorage.getItem("melibusUser")
+
+    try {
+      return guardado ? JSON.parse(guardado) : null
+    } catch {
+      return null
+    }
+  })
   const [paradas, setParadas] = useState([])
+  const [favoritas, setFavoritas] = useState([])
   const [busqueda, setBusqueda] = useState("")
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState("")
+  const [mensajeFavoritos, setMensajeFavoritos] = useState("")
 
   useEffect(() => {
-    getParadas()
-      .then(setParadas)
+    const peticiones = [getParadas()]
+
+    if (usuario?.id && usuario.rol === "usuario") {
+      peticiones.push(getParadasFavoritas(usuario.id))
+    }
+
+    Promise.all(peticiones)
+      .then(([paradasData, favoritasData = []]) => {
+        setParadas(paradasData)
+        setFavoritas(favoritasData.map((parada) => parada.id))
+      })
       .catch((error) => setError(error.message))
       .finally(() => setCargando(false))
-  }, [])
+  }, [usuario])
+
+  const alternarFavorita = async (parada) => {
+    if (!usuario) {
+      setMensajeFavoritos("Debes iniciar sesión para guardar paradas favoritas.")
+      return
+    }
+
+    if (usuario.rol !== "usuario") {
+      setMensajeFavoritos("Las paradas favoritas están disponibles para usuarios.")
+      return
+    }
+
+    const yaEsFavorita = favoritas.includes(parada.id)
+
+    try {
+      if (yaEsFavorita) {
+        await eliminarParadaFavorita(usuario.id, parada.id)
+        setFavoritas((actuales) => actuales.filter((id) => id !== parada.id))
+        setMensajeFavoritos("Parada eliminada de favoritas.")
+      } else {
+        await agregarParadaFavorita(usuario.id, parada.id)
+        setFavoritas((actuales) => [...actuales, parada.id])
+        setMensajeFavoritos("Parada añadida a favoritas.")
+      }
+    } catch (error) {
+      setMensajeFavoritos(error.message)
+    }
+  }
 
   const paradasFiltradas = paradas.filter((parada) => {
     const textoBusqueda = busqueda.toLowerCase()
@@ -44,6 +97,10 @@ function Paradas() {
           onChange={setBusqueda}
         />
 
+        {mensajeFavoritos && (
+          <p className="empty-message">{mensajeFavoritos}</p>
+        )}
+
         {cargando ? (
           <p className="empty-message">Cargando paradas...</p>
         ) : error ? (
@@ -51,7 +108,12 @@ function Paradas() {
         ) : paradasFiltradas.length > 0 ? (
           <div className="info-grid">
             {paradasFiltradas.map((parada) => (
-              <ParadaCard key={parada.id} parada={parada} />
+              <ParadaCard
+                key={parada.id}
+                parada={parada}
+                favorita={favoritas.includes(parada.id)}
+                onToggleFavorita={alternarFavorita}
+              />
             ))}
           </div>
         ) : (

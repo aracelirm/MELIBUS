@@ -60,6 +60,13 @@ VALUES
 ON DUPLICATE KEY UPDATE
   orden = VALUES(orden);
 
+INSERT INTO paradas_favoritas (id_usuario, id_parada)
+VALUES
+  (1, 1),
+  (1, 5)
+ON DUPLICATE KEY UPDATE
+  fecha_creacion = fecha_creacion;
+
 INSERT INTO horarios (id_horario, id_linea, id_parada, tipo_dia, hora)
 VALUES
   (1, 1, 5, 'Laborable', '08:00:00'),

@@ -7,11 +7,13 @@ require_once __DIR__ . '/controllers/HorariosController.php';
 require_once __DIR__ . '/controllers/LineasController.php';
 require_once __DIR__ . '/controllers/AvisosController.php';
 require_once __DIR__ . '/controllers/RecargasController.php';
+require_once __DIR__ . '/controllers/FavoritasController.php';
+require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/AuthController.php';
 
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-User-Id');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
@@ -78,6 +80,67 @@ try {
 
     if ($method === 'GET' && $resource === 'recargas') {
         RecargasController::index($db);
+    }
+
+    if ($resource === 'admin') {
+        $adminResource = $segments[1] ?? '';
+        $adminId = isset($segments[2]) && ctype_digit($segments[2]) ? (int) $segments[2] : null;
+
+        if ($method === 'GET' && $adminResource === 'usuarios') {
+            AdminController::usuarios($db);
+        }
+
+        if ($method === 'PUT' && $adminResource === 'usuarios' && $adminId !== null) {
+            AdminController::updateUsuario($db, $adminId);
+        }
+
+        if ($method === 'GET' && $adminResource === 'paradas') {
+            AdminController::paradas($db);
+        }
+
+        if ($method === 'POST' && $adminResource === 'paradas') {
+            AdminController::storeParada($db);
+        }
+
+        if ($method === 'PUT' && $adminResource === 'paradas' && $adminId !== null) {
+            AdminController::updateParada($db, $adminId);
+        }
+
+        if ($method === 'DELETE' && $adminResource === 'paradas' && $adminId !== null) {
+            AdminController::destroyParada($db, $adminId);
+        }
+
+        if ($method === 'GET' && $adminResource === 'avisos') {
+            AdminController::avisos($db);
+        }
+
+        if ($method === 'POST' && $adminResource === 'avisos') {
+            AdminController::storeAviso($db);
+        }
+
+        if ($method === 'PUT' && $adminResource === 'avisos' && $adminId !== null) {
+            AdminController::updateAviso($db, $adminId);
+        }
+
+        if ($method === 'DELETE' && $adminResource === 'avisos' && $adminId !== null) {
+            AdminController::destroyAviso($db, $adminId);
+        }
+    }
+
+    if ($resource === 'usuarios' && $id !== null && $action === 'paradas-favoritas') {
+        $idParadaFavorita = isset($segments[3]) && ctype_digit($segments[3]) ? (int) $segments[3] : null;
+
+        if ($method === 'GET' && $idParadaFavorita === null) {
+            FavoritasController::index($db, $id);
+        }
+
+        if ($method === 'POST' && $idParadaFavorita === null) {
+            FavoritasController::store($db, $id);
+        }
+
+        if ($method === 'DELETE' && $idParadaFavorita !== null) {
+            FavoritasController::destroy($db, $id, $idParadaFavorita);
+        }
     }
 
     if ($method === 'POST' && $resource === 'auth' && ($segments[1] ?? '') === 'register') {

@@ -84,14 +84,27 @@ function Navbar() {
           </NavLink>
 
           {usuario ? (
-            <NavLink
-              to="/perfil"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              Perfil
-            </NavLink>
+            <>
+              {usuario.rol === "admin" && (
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Admin
+                </NavLink>
+              )}
+
+              <NavLink
+                to="/perfil"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Perfil
+              </NavLink>
+            </>
           ) : (
             <button
               type="button"

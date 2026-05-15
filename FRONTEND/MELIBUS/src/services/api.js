@@ -2,11 +2,20 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000
 
 export async function apiRequest(endpoint, options = {}) {
   const { headers, ...fetchOptions } = options
+  const usuarioGuardado = localStorage.getItem("melibusUser")
+  let usuario = null
+
+  try {
+    usuario = usuarioGuardado ? JSON.parse(usuarioGuardado) : null
+  } catch {
+    usuario = null
+  }
 
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...fetchOptions,
     headers: {
       "Content-Type": "application/json",
+      ...(usuario?.id ? { "X-User-Id": String(usuario.id) } : {}),
       ...(headers || {}),
     },
   })

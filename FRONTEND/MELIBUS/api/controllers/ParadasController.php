@@ -48,6 +48,7 @@ class ParadasController
 
         if (!empty($parada['lineas'])) {
             $lineas = array_map('intval', explode(',', $parada['lineas']));
+            sort($lineas);
         }
 
         return [

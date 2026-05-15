@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom"
 
-function ParadaCard({ parada }) {
+function ParadaCard({ parada, favorita = false, onToggleFavorita }) {
   return (
-    <div className="info-card">
+    <div className="info-card parada-card">
+      <button
+        type="button"
+        className={`favorite-button ${favorita ? "active" : ""}`}
+        onClick={() => onToggleFavorita?.(parada)}
+        title={favorita ? "Quitar de favoritas" : "Añadir a favoritas"}
+        aria-label={favorita ? "Quitar parada de favoritas" : "Añadir parada a favoritas"}
+      >
+        {favorita ? "★" : "☆"}
+      </button>
+
       <h3>{parada.nombre}</h3>
 
       <p>
