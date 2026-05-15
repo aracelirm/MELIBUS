@@ -1,3 +1,5 @@
+// Página de inicio. Presenta MELIBUS y da acceso a las funciones principales.
+// Si quiero cambiar las cards de la home, normalmente lo hago en este archivo.
 import Layout from "../components/Layout"
 import Hero from "../components/Hero"
 import FeatureCard from "../components/FeatureCard"

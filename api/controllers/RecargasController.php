@@ -1,5 +1,8 @@
 <?php
 
+// Controlador de puntos de recarga.
+// Devuelve los sitios donde se puede recargar el bonobús.
+
 class RecargasController
 {
     public static function index(PDO $db): void

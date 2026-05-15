@@ -1,3 +1,5 @@
+// Pie de página de la web. Se muestra al final de todas las pantallas.
+// Contiene texto básico y enlaces informativos.
 import { useState } from "react"
 
 function Footer() {

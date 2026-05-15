@@ -1,5 +1,9 @@
+// Funciones concretas para pedir datos a MELIBUS desde las páginas.
+// Así no tengo que escribir las URLs de la API repartidas por todo el frontend.
 import { apiRequest } from "./api"
 
+// Este archivo es el "índice" de endpoints del frontend.
+// Las páginas llaman a estas funciones y no escriben la URL de la API directamente.
 export const getLineas = () => apiRequest("/lineas")
 
 export const getLinea = (id) => apiRequest(`/lineas/${id}`)
@@ -20,6 +24,7 @@ export const getRecargas = () => apiRequest("/recargas")
 
 export const getAdminUsuarios = () => apiRequest("/admin/usuarios")
 
+// Funciones del panel de administración.
 export const actualizarAdminUsuario = (idUsuario, datos) =>
   apiRequest(`/admin/usuarios/${idUsuario}`, {
     method: "PUT",
@@ -67,6 +72,7 @@ export const desactivarAdminAviso = (idAviso) =>
 export const getParadasFavoritas = (idUsuario) =>
   apiRequest(`/usuarios/${idUsuario}/paradas-favoritas`)
 
+// Favoritos del usuario normal.
 export const agregarParadaFavorita = (idUsuario, idParada) =>
   apiRequest(`/usuarios/${idUsuario}/paradas-favoritas`, {
     method: "POST",
@@ -84,6 +90,7 @@ export const loginUsuario = ({ email, password }) =>
     body: JSON.stringify({ email, password }),
   })
 
+// Login y registro del modal de acceso.
 export const registrarUsuario = ({ nombre, email, password }) =>
   apiRequest("/auth/register", {
     method: "POST",

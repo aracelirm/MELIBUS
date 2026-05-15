@@ -1,3 +1,5 @@
+// Datos locales de paradas usados como ejemplo inicial.
+// Mantiene la estructura básica: id, nombre, dirección, líneas y coordenadas.
 const paradas = [
   {
     id: 1,

@@ -1,3 +1,5 @@
+// Menú lateral de accesos rápidos. Se puede plegar y recuerda su estado en localStorage.
+// Aquí se cambian los accesos laterales que aparecen junto al contenido.
 import { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 

@@ -1,5 +1,8 @@
 <?php
 
+// Controlador de líneas de autobús.
+// Devuelve líneas y también las paradas asociadas a una línea concreta.
+
 class LineasController
 {
     public static function index(PDO $db): void

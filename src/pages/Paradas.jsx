@@ -1,3 +1,5 @@
+// Página de paradas. Muestra el listado, buscador y favoritos del usuario.
+// Desde aquí se añade o quita una parada favorita pulsando la estrella.
 import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import SearchBar from "../components/SearchBar"
@@ -28,6 +30,7 @@ function Paradas() {
   const [mensajeFavoritos, setMensajeFavoritos] = useState("")
 
   useEffect(() => {
+    // Cargo paradas siempre. Si hay usuario normal, cargo también sus favoritas.
     const peticiones = [getParadas()]
 
     if (usuario?.id && usuario.rol === "usuario") {
@@ -44,6 +47,7 @@ function Paradas() {
   }, [usuario])
 
   const alternarFavorita = async (parada) => {
+    // Esta función se pasa a ParadaCard y se ejecuta al pulsar la estrella.
     if (!usuario) {
       setMensajeFavoritos("Debes iniciar sesión para guardar paradas favoritas.")
       return
@@ -74,6 +78,7 @@ function Paradas() {
   const paradasFiltradas = paradas.filter((parada) => {
     const textoBusqueda = busqueda.toLowerCase()
 
+    // Filtro sencillo para busca por nombre o dirección.
     return (
       parada.nombre.toLowerCase().includes(textoBusqueda) ||
       parada.direccion.toLowerCase().includes(textoBusqueda)

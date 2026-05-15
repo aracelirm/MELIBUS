@@ -1,3 +1,5 @@
+// Configuración de ESLint para revisar errores y detalles del código React.
+// Sirve para pasar npm run lint y detectar fallos antes de entregar o publicar.
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'

@@ -1,3 +1,5 @@
+// Datos locales de horarios usados al principio del proyecto.
+// Sirven como referencia para entender la estructura que luego devuelve la API.
 const horarios = [
   {
     id: 1,

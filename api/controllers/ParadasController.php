@@ -1,5 +1,8 @@
 <?php
 
+// Controlador de paradas de autobús.
+// Devuelve listados, detalle de parada y horarios asociados a esa parada.
+
 class ParadasController
 {
     public static function index(PDO $db): void

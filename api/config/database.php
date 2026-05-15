@@ -1,9 +1,13 @@
 <?php
 
+// Configuración de conexión a MariaDB usando PDO.
+// Aquí se cambian usuario, contraseña, host o base de datos si el entorno cambia.
+
 class Database
 {
     public static function getConnection(): PDO
     {
+        // Datos de conexión. En local usa estos valores, pero se pueden cambiar con variables de entorno.
         $database = getenv('DB_NAME') ?: 'melibus';
         $user = getenv('DB_USER') ?: 'root';
         $password = getenv('DB_PASSWORD') ?: 'Mabel';

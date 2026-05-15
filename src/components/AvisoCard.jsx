@@ -1,3 +1,5 @@
+// Tarjeta simple para mostrar un aviso o incidencia.
+// Recibe un aviso y pinta su título, descripción y fecha.
 function AvisoCard({ aviso }) {
   return (
     <div className="info-card aviso-card">

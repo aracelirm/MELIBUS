@@ -1,9 +1,12 @@
+// Página general de horarios. Muestra los horarios agrupados por línea, parada y día.
+// También calcula cuál sería el próximo autobús según la hora actual.
 import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import PageHeader from "../components/PageHeader"
 import { getHorarios, getLineas, getParadas } from "../services/melibusApi"
 
 function obtenerProximoAutobus(horas) {
+  // Misma lógica que en DetalleParada, busca la próxima hora disponible.
   const ahora = new Date()
   const horaActual = ahora.getHours() * 60 + ahora.getMinutes()
 
@@ -25,6 +28,7 @@ function Horarios() {
   const [error, setError] = useState("")
 
   useEffect(() => {
+    // Horarios trae ids, por eso también cargo líneas y paradas para mostrar sus nombres.
     Promise.all([getHorarios(), getLineas(), getParadas()])
       .then(([horariosData, lineasData, paradasData]) => {
         setHorarios(horariosData)

@@ -1,5 +1,8 @@
 <?php
 
+// Controlador de avisos e incidencias visibles para el usuario.
+// Devuelve los registros activos que se muestran en la página de avisos.
+
 class AvisosController
 {
     public static function index(PDO $db): void

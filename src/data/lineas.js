@@ -1,3 +1,5 @@
+// Datos locales de líneas usados como ejemplo inicial.
+// La información real se carga ahora desde MariaDB mediante la API.
 const lineas = [
   {
     id: 1,

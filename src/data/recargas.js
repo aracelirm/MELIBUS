@@ -1,3 +1,5 @@
+// Datos locales de puntos de recarga usados como ejemplo inicial.
+// La pantalla de recargas ya consulta estos datos desde el backend.
 const recargas = [
   {
     id: 1,

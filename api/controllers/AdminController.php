@@ -1,5 +1,8 @@
 <?php
 
+// Controlador del panel de administración.
+// Permite gestionar usuarios, paradas y avisos desde la parte privada.
+
 class AdminController
 {
     public static function usuarios(PDO $db): void
@@ -188,6 +191,7 @@ class AdminController
 
     private static function requireAdmin(PDO $db): void
     {
+        // Protección básica del panel admin. El frontend manda el id en la cabecera X-User-Id.
         $idUsuario = (int) ($_SERVER['HTTP_X_USER_ID'] ?? 0);
 
         if ($idUsuario <= 0) {
@@ -209,6 +213,7 @@ class AdminController
 
     private static function validateParada(array $data): array
     {
+        // Validación común para crear y editar paradas.
         $nombre = trim($data['nombre'] ?? '');
         $direccion = trim($data['direccion'] ?? '');
 
@@ -227,6 +232,7 @@ class AdminController
 
     private static function validateAviso(array $data): array
     {
+        // Validación común para crear y editar avisos/incidencias.
         $tipo = $data['tipo'] ?? 'incidencia';
         $estado = $data['estado'] ?? 'pendiente';
         $titulo = trim($data['titulo'] ?? '');

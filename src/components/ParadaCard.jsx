@@ -1,8 +1,11 @@
+// Tarjeta para mostrar una parada. Incluye líneas, botón de detalle y estrella de favorito.
+// Se reutiliza en el listado de paradas y también en el perfil del usuario.
 import { Link } from "react-router-dom"
 
 function ParadaCard({ parada, favorita = false, onToggleFavorita }) {
   return (
     <div className="info-card parada-card">
+      {/* Estrella de favoritos. La acción real viene desde la página que usa esta card. */}
       <button
         type="button"
         className={`favorite-button ${favorita ? "active" : ""}`}

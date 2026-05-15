@@ -1,3 +1,5 @@
+// Datos locales de avisos usados como referencia inicial del proyecto.
+// La app actual tira de API, pero este archivo muestra la forma que tenían los datos.
 const avisos = [
   {
     id: 1,

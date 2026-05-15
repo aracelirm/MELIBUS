@@ -1,11 +1,15 @@
 <?php
 
+// Controlador de autenticación. Gestiona registro e inicio de sesión.
+// Valida los datos y trabaja con contraseñas cifradas usando password_hash.
+
 class AuthController
 {
     public static function register(PDO $db): void
     {
         $data = readJsonBody();
 
+        // Registro sencillo: valida datos básicos y guarda la contraseña cifrada.
         $nombre = trim($data['nombre'] ?? '');
         $email = trim($data['email'] ?? '');
         $password = (string) ($data['password'] ?? '');
@@ -56,6 +60,7 @@ class AuthController
     {
         $data = readJsonBody();
 
+        // Login: busca por email y comprueba la contraseña con password_verify.
         $email = trim($data['email'] ?? '');
         $password = (string) ($data['password'] ?? '');
 

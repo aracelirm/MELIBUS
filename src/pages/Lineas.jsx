@@ -1,3 +1,5 @@
+// Página de líneas. Carga las líneas desde la API y permite buscar por nombre o recorrido.
+// Cada resultado se pinta usando el componente LineaCard.
 import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import SearchBar from "../components/SearchBar"

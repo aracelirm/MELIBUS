@@ -1,5 +1,8 @@
 <?php
 
+// Entrada principal de la API PHP. Aquí se leen las rutas y se llama al controlador correcto.
+// Si necesito crear un endpoint nuevo, normalmente empieza registrándose en este archivo.
+
 require_once __DIR__ . '/helpers/response.php';
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/controllers/ParadasController.php';
@@ -44,6 +47,7 @@ if (($segments[0] ?? '') === 'index.php') {
     $id = isset($segments[1]) && ctype_digit($segments[1]) ? (int) $segments[1] : null;
     $action = $segments[2] ?? null;
 
+    // A partir de aquí están las rutas de la API. Si se crea un endpoint nuevo, se añade aquí.
     if ($method === 'GET' && $resource === '') {
         sendJson([
             'name' => 'MELIBUS API',

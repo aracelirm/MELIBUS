@@ -1,3 +1,5 @@
+// Página de avisos e incidencias. Carga los avisos activos desde la API.
+// Sirve para que cualquier usuario vea cambios o problemas del servicio.
 import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import AvisoCard from "../components/AvisoCard"

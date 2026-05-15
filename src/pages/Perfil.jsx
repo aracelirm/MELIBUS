@@ -1,3 +1,5 @@
+// Página de perfil. Muestra los datos del usuario y sus paradas favoritas.
+// También permite cerrar sesión y quitar favoritas desde la misma vista.
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -74,6 +76,7 @@ function Perfil() {
   };
 
   const quitarFavorita = async (parada) => {
+    // La misma card se reutiliza, aquí la estrella sirve para quitar de favoritos.
     try {
       await eliminarParadaFavorita(usuario.id, parada.id);
       setFavoritas((actuales) =>

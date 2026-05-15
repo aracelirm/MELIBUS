@@ -1,3 +1,5 @@
+// Barra superior de navegación. Controla enlaces, logo, botón del menú y acceso de usuario.
+// También decide si se ve Acceder, Perfil o Admin según el usuario iniciado.
 import { useEffect, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import logo from "../img/LOGO.png"
@@ -12,6 +14,7 @@ function Navbar() {
   }
   
   useEffect(() => {
+  // El usuario se guarda en localStorage al iniciar sesión. Con este evento se actualiza el menú.
   const cargarUsuario = () => {
     const usuarioGuardado = localStorage.getItem("melibusUser");
     if (usuarioGuardado) {
@@ -47,6 +50,7 @@ function Navbar() {
         </div>
 
         <nav className="topbar-nav">
+          {/* Menú superior. Para cambiar nombres o añadir accesos rápidos, se toca esta zona. */}
           <NavLink
             to="/"
             className={({ isActive }) =>

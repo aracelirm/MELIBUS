@@ -1,3 +1,5 @@
+// Página de detalle de una línea. Muestra su recorrido y las paradas asociadas.
+// Usa el id de la URL para pedir al backend la línea concreta.
 import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import Layout from "../components/Layout"

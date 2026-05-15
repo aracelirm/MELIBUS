@@ -1,3 +1,5 @@
+-- Script principal de base de datos para MELIBUS.
+-- Crea la base melibus y todas las tablas necesarias para la aplicación.
 CREATE DATABASE IF NOT EXISTS melibus
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_spanish_ci;

@@ -1,3 +1,5 @@
+-- Datos iniciales de prueba para MELIBUS.
+-- Sirve para tener usuarios, líneas, paradas, horarios, avisos y recargas al arrancar.
 USE melibus;
 
 INSERT INTO usuarios (id_usuario, nombre, email, password_hash, rol, activo)

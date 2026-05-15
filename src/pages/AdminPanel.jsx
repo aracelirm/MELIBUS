@@ -17,6 +17,7 @@ import {
 } from "../services/melibusApi"
 
 const paradaInicial = {
+  // Valores por defecto del formulario de paradas.
   id: null,
   nombre: "",
   direccion: "",
@@ -26,6 +27,7 @@ const paradaInicial = {
 }
 
 const avisoInicial = {
+  // Valores por defecto del formulario de avisos/incidencias.
   id: null,
   tipo: "incidencia",
   titulo: "",
@@ -61,6 +63,7 @@ function AdminPanel() {
     setCargando(true)
     setError("")
 
+    // Recarga todo el panel después de crear, editar o desactivar algo.
     obtenerDatosPanel()
       .then(([usuariosData, paradasData, avisosData, lineasData]) => {
         setUsuarios(usuariosData)
@@ -111,6 +114,7 @@ function AdminPanel() {
     event.preventDefault()
 
     try {
+      // Aquí se decide si el formulario crea una parada nueva o edita una existente.
       const datos = prepararParada(formParada)
 
       if (formParada.id) {
@@ -132,6 +136,7 @@ function AdminPanel() {
     event.preventDefault()
 
     try {
+      // Misma idea que con paradas: si hay id, edita; si no hay id, crea.
       const datos = prepararAviso(formAviso)
 
       if (formAviso.id) {
@@ -243,6 +248,7 @@ function AdminPanel() {
         {!cargando && tab === "paradas" && (
           <section className="admin-section">
             <h3>{formParada.id ? "Editar parada" : "Nueva parada"}</h3>
+            {/* Formulario de paradas. Aquí se añaden o cambian los campos visibles. */}
             <form className="admin-form" onSubmit={guardarParada}>
               <input
                 value={formParada.nombre}
@@ -305,6 +311,7 @@ function AdminPanel() {
         {!cargando && tab === "avisos" && (
           <section className="admin-section">
             <h3>{formAviso.id ? "Editar aviso" : "Nuevo aviso"}</h3>
+            {/* Formulario de avisos/incidencias. Sirve para crear y editar desde el admin. */}
             <form className="admin-form" onSubmit={guardarAviso}>
               <select value={formAviso.tipo} onChange={(event) => setFormAviso({ ...formAviso, tipo: event.target.value })}>
                 <option value="aviso">Aviso</option>
@@ -379,6 +386,7 @@ function AdminPanel() {
 }
 
 function prepararParada(parada) {
+  // Adapta los datos del formulario al formato que espera PHP.
   return {
     nombre: parada.nombre,
     direccion: parada.direccion,
@@ -389,6 +397,7 @@ function prepararParada(parada) {
 }
 
 function prepararAviso(aviso) {
+  // Los select vacíos se mandan como null para no asociar línea/parada.
   return {
     tipo: aviso.tipo,
     titulo: aviso.titulo,

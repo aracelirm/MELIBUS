@@ -1,3 +1,5 @@
+// Componente principal de la app. Aquí están las rutas y la estructura general.
+// Sirve para decidir qué página se muestra según la URL.
 import { Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
@@ -20,6 +22,7 @@ function App() {
       <Navbar />
 
       <div className="app-content">
+        {/* Rutas principales de la web. Si quiero añadir una página nueva, la registro aquí. */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lineas" element={<Lineas />} />

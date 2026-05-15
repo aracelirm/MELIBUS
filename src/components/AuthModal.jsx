@@ -1,3 +1,5 @@
+// Modal de acceso de usuarios. Contiene login y registro en la misma ventana.
+// Sirve para iniciar sesión, crear cuenta y guardar el usuario en localStorage.
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { loginUsuario, registrarUsuario } from "../services/melibusApi"
@@ -9,6 +11,7 @@ function AuthModal({ onClose }) {
   const [error, setError] = useState("")
   const [cargando, setCargando] = useState(false)
 
+  // Datos de los dos formularios. Los name de los inputs tienen que coincidir con estas claves.
   const [formulario, setFormulario] = useState({
     nombre: "",
     email: "",
@@ -19,6 +22,7 @@ function AuthModal({ onClose }) {
   const manejarCambio = (event) => {
     const { name, value } = event.target
 
+    // Actualiza solo el campo que se está escribiendo sin perder el resto del formulario.
     setFormulario({
       ...formulario,
       [name]: value,
@@ -28,6 +32,7 @@ function AuthModal({ onClose }) {
   const manejarLogin = async (event) => {
     event.preventDefault()
 
+    // Validación sencilla antes de llamar al backend.
     if (!formulario.email || !formulario.password) {
       setError("Introduce el correo y la contraseña.")
       return
@@ -57,6 +62,7 @@ function AuthModal({ onClose }) {
   const manejarRegistro = async (event) => {
     event.preventDefault()
 
+    // Si en el futuro añado más campos obligatorios, los reviso en esta condición.
     if (
       !formulario.nombre ||
       !formulario.email ||
@@ -131,6 +137,7 @@ function AuthModal({ onClose }) {
 
         {modo === "login" ? (
           <form onSubmit={manejarLogin} className="auth-form">
+            {/* Formulario de inicio de sesión */}
             <div className="auth-field">
               <label htmlFor="email-login">Correo electrónico</label>
               <input
@@ -169,6 +176,7 @@ function AuthModal({ onClose }) {
           </form>
         ) : (
           <form onSubmit={manejarRegistro} className="auth-form">
+            {/* Formulario de registro */}
             <div className="auth-field">
               <label htmlFor="nombre-registro">Nombre</label>
               <input

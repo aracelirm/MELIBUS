@@ -1,7 +1,11 @@
 <?php
 
+// Funciones comunes para responder desde la API.
+// Centraliza JSON, errores y lectura del cuerpo de las peticiones.
+
 function sendJson($data, int $statusCode = 200): void
 {
+    // Todas las respuestas de la API salen como JSON desde aquí.
     http_response_code($statusCode);
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

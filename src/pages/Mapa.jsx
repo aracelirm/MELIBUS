@@ -1,3 +1,5 @@
+// Página del mapa. Usa Leaflet para colocar las paradas con coordenadas.
+// Si una parada no tiene latitud y longitud, no se muestra como marcador.
 import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
@@ -13,6 +15,7 @@ import { getParadas } from "../services/melibusApi"
 
 delete L.Icon.Default.prototype._getIconUrl
 
+// Ajuste para que Leaflet encuentre los iconos dentro de Vite.
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
@@ -33,6 +36,7 @@ function Mapa() {
   }, [])
 
   const paradasConCoordenadas = paradas.filter(
+    // Solo pinto marcadores si la parada tiene latitud y longitud.
     (parada) => parada.latitud !== null && parada.longitud !== null
   )
 

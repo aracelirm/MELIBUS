@@ -1,3 +1,5 @@
+// Página de puntos de recarga. Carga desde la API los sitios donde recargar.
+// Cada punto se muestra con una tarjeta sencilla de información.
 import { useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import RecargaCard from "../components/RecargaCard"

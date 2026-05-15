@@ -1,3 +1,5 @@
+// Cabecera reutilizable para las páginas. Muestra etiqueta, título y descripción.
+// La uso para que todas las pantallas tengan una presentación parecida.
 function PageHeader({ tag, titulo, descripcion }) {
   return (
     <section className="page-header">

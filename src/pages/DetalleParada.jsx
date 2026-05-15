@@ -1,3 +1,5 @@
+// Página de detalle de una parada. Muestra sus líneas y los horarios cargados.
+// Usa el id de la URL para traer la parada concreta desde la API.
 import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import Layout from "../components/Layout"
@@ -5,6 +7,7 @@ import PageHeader from "../components/PageHeader"
 import { getHorariosParada, getLineas, getParada } from "../services/melibusApi"
 
 function obtenerProximoAutobus(horas) {
+  // Compara la hora actual con las horas de la parada y devuelve la siguiente.
   const ahora = new Date()
   const horaActual = ahora.getHours() * 60 + ahora.getMinutes()
 
@@ -27,6 +30,7 @@ function DetalleParada() {
   const [error, setError] = useState("")
 
   useEffect(() => {
+    // La pantalla cuenta con la parada, las líneas y los horarios de esa parada.
     Promise.all([getParada(id), getLineas(), getHorariosParada(id)])
       .then(([paradaData, lineasData, horariosData]) => {
         setParada(paradaData)
@@ -62,6 +66,7 @@ function DetalleParada() {
   }
 
   const lineasDeParada = lineas.filter((linea) =>
+    // Estas líneas vienen de la relación lineas_paradas de la base de datos.
     parada.lineas.includes(linea.id)
   )
 
@@ -98,6 +103,7 @@ function DetalleParada() {
         {horariosDeParada.length > 0 ? (
           <div className="info-grid">
             {horariosDeParada.map((horario) => {
+              // Cada card de horario representa una línea + tipo de día.
               const linea = lineas.find((item) => item.id === horario.idLinea)
               const proximoAutobus = obtenerProximoAutobus(horario.horas)
 

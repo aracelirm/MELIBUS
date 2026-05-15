@@ -1,3 +1,5 @@
+# Configuración de Apache para que todas las rutas de la API pasen por index.php.
+# Así funcionan URLs limpias como /api/paradas o /api/lineas/1.
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

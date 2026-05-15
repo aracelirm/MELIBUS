@@ -1,5 +1,8 @@
 <?php
 
+// Controlador de paradas favoritas.
+// Gestiona consultar, añadir y eliminar favoritas de cada usuario.
+
 class FavoritasController
 {
     public static function index(PDO $db, int $idUsuario): void
@@ -25,6 +28,7 @@ class FavoritasController
     {
         self::ensureUserExists($db, $idUsuario);
 
+        // Añade una parada favorita si existe y está activa.
         $data = readJsonBody();
         $idParada = (int) ($data['idParada'] ?? 0);
 

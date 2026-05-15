@@ -1,5 +1,8 @@
 <?php
 
+// Controlador de horarios de autobús.
+// Agrupa las horas por línea, parada y tipo de día para enseñarlas en cards.
+
 class HorariosController
 {
     public static function index(PDO $db): void
@@ -29,6 +32,7 @@ class HorariosController
         }
 
         return sprintf(
+            // Agrupo por línea, parada y tipo de día para devolver una card con varias horas.
             'SELECT MIN(h.id_horario) AS id_grupo,
                     h.id_linea,
                     h.id_parada,

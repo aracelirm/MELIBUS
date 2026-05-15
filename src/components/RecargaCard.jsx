@@ -1,3 +1,5 @@
+// Tarjeta para mostrar un punto de recarga del bonobús.
+// Pinta nombre, dirección y horario del punto.
 function RecargaCard({ punto }) {
   return (
     <div className="info-card recarga-card">

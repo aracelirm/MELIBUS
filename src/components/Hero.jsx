@@ -1,3 +1,5 @@
+// Bloque principal de la home. Es la primera zona visual que ve el usuario.
+// Aquí se cambia el texto grande de bienvenida o presentación de MELIBUS.
 function Hero() {
   return (
     <section className="hero">

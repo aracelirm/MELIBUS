@@ -1,3 +1,5 @@
+// Tarjeta para mostrar una línea de autobús dentro del listado.
+// Tiene el nombre, recorrido y el botón para entrar al detalle.
 import { Link } from "react-router-dom"
 
 function LineaCard({ linea }) {
